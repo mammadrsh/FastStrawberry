@@ -4,8 +4,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from sqlmodel import SQLModel
-from app.workout.models import *
+from app.workout.models.models import *
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

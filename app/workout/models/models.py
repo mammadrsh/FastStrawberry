@@ -1,10 +1,10 @@
 from sqlmodel import SQLModel, Field, Relationship
 from typing import List, Optional
 from datetime import datetime
+from odmantic import Field, Model
 
 
-class MuscleGroup(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+class MuscleGroup(Model):
     name: str = Field(max_length=100)
     # exercises: List["Exercise"] = Relationship(back_populates="muscle_groups")
 

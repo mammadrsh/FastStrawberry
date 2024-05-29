@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.workout.router import api_router as workout
+from app.workout.api import router as workout
 
 app = FastAPI()
 
@@ -14,5 +14,5 @@ async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
 app.include_router(
-    workout, prefix="/workout", tags=["Workout"]
+    workout.router, prefix="/workout", tags=["Workout"]
 )
