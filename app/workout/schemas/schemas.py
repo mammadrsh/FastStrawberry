@@ -1,45 +1,26 @@
-from pydantic import BaseModel, Field
 from typing import List, Optional
 
+import strawberry
 
-class ExerciseMuscleGroupCreate(BaseModel):
-    muscle_group_id: int
-    volume: float
-
-    class Config:
-        orm_mode = True
+from app.db import engine
+from app.workout.models.models import MuscleGroup
 
 
-class ExerciseCreate(BaseModel):
-    name: str
-    description: str
-    muscle_groups: List[ExerciseMuscleGroupCreate]
-
-    class Config:
-        orm_mode = True
-
-
-class MuscleGroupRead(BaseModel):
-    id: int
+@strawberry.type
+class MuscleGroupType:
+    id: strawberry.ID
     name: str
 
-    class Config:
-        orm_mode = True
+
+@strawberry.type
+class Query:
+    @strawberry.field
+    async def muscle_groups(self, info, name: Optional[str] = None) -> List[MuscleGroupType]:
+        if name:
+            muscle_groups = await engine.find(MuscleGroup, MuscleGroup.name == name)
+        else:
+            muscle_groups = await engine.find(MuscleGroup)
+        return [MuscleGroupType(id=muscle_group.id, name=muscle_group.name) for muscle_group in muscle_groups]
 
 
-class ExerciseMuscleGroupRead(BaseModel):
-    muscle_group: MuscleGroupRead
-    volume: float
-
-    class Config:
-        orm_mode = True
-
-
-class ExerciseRead(BaseModel):
-    id: int
-    name: str
-    description: str
-    muscle_groups: List[ExerciseMuscleGroupRead]
-
-    class Config:
-        orm_mode = True
+schema = strawberry.Schema(query=Query)
