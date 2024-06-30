@@ -1,6 +1,4 @@
-from typing import Any, List
-
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from strawberry.fastapi import GraphQLRouter
 from app.workout.schemas.schemas import schema
 

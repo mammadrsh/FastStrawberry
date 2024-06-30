@@ -1,20 +1,27 @@
+from typing import List, Optional
+
+from bson import ObjectId
 from odmantic import Field, Model
 
 
 class MuscleGroup(Model):
-    name: str
+    name: str = Field(max_length=200)
+    exercise_ids: List[ObjectId] = []
 
     model_config = {
             "collection": "muscle_groups"
         }
-# class Exercise(SQLModel, table=True):
-#     id: Optional[int] = Field(default=None, primary_key=True)
-#     name: str = Field(max_length=200)
-#     description: str = Field(default="")
-#     muscle_groups: List[MuscleGroup] = Relationship(back_populates="exercises")
-#     splits: List["Split"] = Relationship(back_populates="exercises")
-#
-#
+
+
+class Exercise(Model):
+    name: str = Field(max_length=200)
+    description: str = Field(default="")
+    muscle_group_ids: Optional[List[ObjectId]] = None
+    # splits: List["Split"] = Relationship(back_populates="exercises")
+    model_config = {
+            "collection": "exercises"
+        }
+
 # class ExerciseMuscleGroup(SQLModel, table=True):
 #     exercise_id: int = Field(foreign_key="exercise.id", primary_key=True)
 #     muscle_group_id: int = Field(foreign_key="muscle_group.id", primary_key=True)
