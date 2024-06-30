@@ -16,7 +16,7 @@ class MuscleGroup(Model):
 class Exercise(Model):
     name: str = Field(max_length=200)
     description: str = Field(default="")
-    muscle_group_ids: Optional[List[ObjectId]] = None
+    muscle_group_ids: Optional[List[ObjectId]] = []
     # splits: List["Split"] = Relationship(back_populates="exercises")
     model_config = {
             "collection": "exercises"
